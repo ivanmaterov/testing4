@@ -3,7 +3,11 @@ from __future__ import annotations
 from typing import Type
 
 from .chessman import Chessman
-from .exceptions import BadMoveException, FigureIsCapturedException
+from .exceptions import (
+    BadMoveException,
+    CaptureException,
+    FigureIsCapturedException
+)
 from .field import ChessField
 from .interfaces import AbstractChessmanType
 
@@ -67,6 +71,10 @@ class ChessBoard:
 
         Run chessman validation and set up new position.
 
+        Raises:
+            CaptureException if chessman tries to capture a figure with the
+            same side.
+
         """
         self._validate_chessman(chessman)
         self._validate_move(chessman, field)
@@ -74,6 +82,11 @@ class ChessBoard:
         chessman.get_position().chessman = None
 
         if field.chessman:
+            if chessman.side is field.chessman.side:
+                raise CaptureException(
+                    f'Figure {chessman} tries to capture a figure with'
+                    f' the same side ({chessman.side})'
+                )
             field.chessman.capture()
         field.chessman = chessman
 

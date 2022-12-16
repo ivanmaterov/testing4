@@ -12,3 +12,7 @@ class BadMoveException(ValueError):
 
 class ChangeTypeException(ValueError):
     pass
+
+
+class CaptureException(ValueError):
+    pass

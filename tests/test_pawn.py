@@ -2,7 +2,7 @@ import pytest
 
 from chess.board import ChessBoard
 from chess.chessman import Chessman
-from chess.exceptions import BadMoveException
+from chess.exceptions import BadMoveException, CaptureException
 from chess.type import Rook
 
 
@@ -144,3 +144,25 @@ def test_pawn_exchanging_into_rook(
 
     assert isinstance(chessman_rook.type, Rook)
     assert new_field.chessman is chessman_rook
+
+
+def test_black_pawn_capture_another_black_pawn(
+    chess_board: ChessBoard,
+    chessman_black_pawn: Chessman,
+    chessman_another_black_pawn: Chessman,
+):
+    """Test black pawn tries to capture another black pawn.
+
+    This move should lead to `CaptureException`.
+
+    """
+    chessman_another_black_pawn_field = chess_board.state[1][1]
+
+    chess_board.state[0][0].chessman = chessman_black_pawn
+    chessman_another_black_pawn_field.chessman = chessman_another_black_pawn
+
+    with pytest.raises(CaptureException):
+        chess_board.move_figure(
+            chessman=chessman_black_pawn,
+            field=chessman_another_black_pawn_field,
+        )

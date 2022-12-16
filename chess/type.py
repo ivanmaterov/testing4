@@ -33,7 +33,6 @@ class Rook(AbstractChessmanType):
                 if col_field_length > 0 else
                 board.state[row_index][old_field_col + 1: new_field_col + 1]
             )
-            return self._check_is_busy(slice)
 
         # validate by rows
         if row_field_length != 0 and col_field_length == 0:
@@ -44,9 +43,10 @@ class Rook(AbstractChessmanType):
                 if row_field_length > 0 else
                 row_list[old_field_row + 1: new_field_row + 1]
             )
-            return self._check_is_busy(slice)
 
-        return False
+        # there is no need to check last field if it's `capture` move
+        slice = slice[:-1] if is_capture else slice
+        return self._check_is_busy(slice)
 
     def _check_is_busy(self, slice: Iterable[ChessField]) -> bool:
         for item in slice:

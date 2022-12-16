@@ -21,6 +21,15 @@ def chessman_black_pawn(chess_board: ChessBoard) -> Chessman:
 
 
 @pytest.fixture
+def chessman_another_black_pawn(chess_board: ChessBoard) -> Chessman:
+    return Chessman(
+        chessman_type=Pawn,
+        side=Black,
+        chess_board=chess_board,
+    )
+
+
+@pytest.fixture
 def chessman_white_pawn(chess_board: ChessBoard) -> Chessman:
     return Chessman(
         chessman_type=Pawn,
@@ -31,6 +40,15 @@ def chessman_white_pawn(chess_board: ChessBoard) -> Chessman:
 
 @pytest.fixture
 def chessman_black_rook(chess_board: ChessBoard) -> Chessman:
+    return Chessman(
+        chessman_type=Rook,
+        side=Black,
+        chess_board=chess_board,
+    )
+
+
+@pytest.fixture
+def chessman_another_black_rook(chess_board: ChessBoard) -> Chessman:
     return Chessman(
         chessman_type=Rook,
         side=Black,
